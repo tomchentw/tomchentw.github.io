@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<title>tomchentw.github.io</title>
+<meta name="viewport" content="width=device-width; initial-scale=1">
+<!-- Forked from: https://github.com/cheeaun/cheeaun.github.com/blob/master/index.html -->
+<style>
+body {
+  color: #666;
+  background-color: #fff;
+  font-family: helvetica, arial, sans-serif;
+  font-size: 13px;
+  margin: 0;
+  padding: 0;
+}
+h1{
+  font-size: 13px;
+  margin: 0;
+  padding: 0;
+}
+h1 a{
+  display: block;
+  line-height: 20px;
+  padding: 6px 20px;
+  border-bottom: 1px solid #ddd;
+}
+#projects-count{
+  font-weight: normal;
+  color: #ccc;
+  display: inline-block;
+  line-height: 1.3em;
+  margin-left: .5em;
+}
+a{
+  color: #666;
+  background-color: transparent;
+  text-decoration: none;
+  -webkit-transition: all .2s;
+  -moz-transition: all .2s;
+  -ms-transition: all .2s;
+  -o-transition: all .2s;
+  transition: all .2s;
+}
+a:hover{
+  color: #fff;
+  background-color: #666;
+}
+#repos-list{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+#repos-list li{
+  display: inline;
+}
+#repos-list li a{
+  position: relative;
+  display: block;
+  line-height: 20px;
+  padding: 6px 20px;
+  overflow: hidden;
+}
+#repos-list li:nth-child(odd) a{
+  background-color: #fafafa;
+}
+#repos-list li a:hover{
+  color: #fff;
+  background-color: #666;
+}
+#repos-list li.fork a:before{
+  color: #999;
+  content: '\2646';
+  position: absolute;
+  left: 5px;
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+#repos-list li a .desc{
+  color: #ccc;
+  display: inline-block;
+  line-height: 1.3em;
+  margin-left: .5em;
+}
+#projects-info,
+#repos-list li a .info{
+  float: right;
+  clear: right;
+}
+b.stars,
+b.forks{
+  font-weight: bold;
+  display: inline-block;
+}
+b.stars:before,
+b.forks:before{
+  display: inline-block;
+  font-size: 14px;
+  width: 20px;
+  text-align: center;
+}
+b.stars:before{
+  content: '\2605';
+}
+b.forks:before{
+  content: '\2646';
+}
+</style>
+<h1><a href="https://github.com/tomchentw"><span id="projects-info"></span>tomchentw <span id="projects-count"></span> </a></h1>
+<ul id="repos-list"></ul>
+<script>
+var reposList = document.getElementById('repos-list'),
+  projectsCount = document.getElementById('projects-count'),
+  projectsInfo = document.getElementById('projects-info'),
+  load = function(data){
+    if (!data || !data.data || !data.data.length) return;
+    var repositories = data.data,
+      html = '';
+    repositories.sort(function(a, b){
+      var aFork = a.fork, bFork = b.fork;
+      if (aFork && !bFork) return 1;
+      if (!aFork && bFork) return -1;
+      return new Date(b.pushed_at) - new Date(a.pushed_at);
+    });
+    var l = repositories.length, lp = 0, lf = 0, w = 0, f = 0;
+    for (var i=0; i<l; i++){
+      var r = repositories[i],
+        fork = r.fork ? ' class="fork"' : '',
+        watchers = r.watchers,
+        forks = r.forks;
+      w += r.watchers;
+      f += r.forks;
+      fork ? lf++ : lp++;
+      html += '<li' + fork + '>'
+        + '<a href="' + r.html_url + '">'
+        + '<span class="info"><b class="language">' + (r.language || '') + '</b> <b class="stars">' + watchers + '</b> <b class="forks">' + forks + '</b></span>'
+        + '<b>' + r.name + '</b> '
+        + '<span class="desc">' + r.description + '</span>'
+        + '</a>';
+    }
+    reposList.innerHTML = html;
+    projectsCount.innerHTML = l + ' repositories; ' + lp + ' public, ' + lf + ' forks';
+    projectsInfo.innerHTML = '<b class="stars">' + w + '</b> <b class="forks">' + f + '</b>';
+  };
+</script>
+<script src="https://api.github.com/users/tomchentw/repos?callback=load&per_page=100"></script>
