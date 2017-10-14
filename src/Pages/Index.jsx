@@ -1,7 +1,9 @@
 import _ from "lodash";
 import cx from "classnames";
 import React from "react";
+import { Link } from "react-router-dom";
 import { compose, lifecycle } from "recompose";
+import Header from "../Header";
 
 const enhance = compose(
   lifecycle({
@@ -19,30 +21,56 @@ const enhance = compose(
   })
 );
 
+const demoRepositories = ["react-google-maps"];
+
+const Item = ({ watchers, forks, language, name, description }) => [
+  <span key="info" className="info">
+    <b className="language">{language}</b>
+    <b className="stars">{watchers}</b>
+    <b className="forks">{forks}</b>
+  </span>,
+  <b key="name">{name}</b>,
+  <span key="desc" className="desc">
+    {description}
+  </span>
+];
+
 const Index = ({ data }) => [
   // Forked from: https://github.com/cheeaun/cheeaun.github.com/blob/master/index.html
-  <h1 key="header">
-    <a href="https://github.com/tomchentw">
-      <span id="projects-info">
-        <b className="stars">{_.sumBy(data, "watchers")}</b>{" "}
-        <b className="forks">{_.sumBy(data, "forks")}</b>
-      </span>tomchentw{" "}
-      <span id="projects-count">{data.length} repositories</span>
-    </a>
-  </h1>,
+  <Header
+    key="header"
+    watchers={_.sumBy(data, "watchers")}
+    forks={_.sumBy(data, "forks")}
+    repositories={data.length}
+  />,
   <ul key="list" id="repos-list">
     {data.map(
       ({ fork, watchers, forks, html_url, language, name, description }) => (
-        <li key={name} className={cx({ fork })}>
-          <a href={html_url} target="_blank" rel="noopener noreferrer">
-            <span className="info">
-              <b className="language">{language}</b>
-              <b className="stars">{watchers}</b>
-              <b className="forks">{forks}</b>
-            </span>
-            <b>{name}</b>
-            <span className="desc">{description}</span>
-          </a>
+        <li
+          key={name}
+          className={cx({ fork, demo: _.includes(demoRepositories, name) })}
+        >
+          {_.includes(demoRepositories, name) ? (
+            <Link to={`/demos/${name}`}>
+              <Item
+                watchers={watchers}
+                forks={forks}
+                language={language}
+                name={name}
+                description={description}
+              />
+            </Link>
+          ) : (
+            <a href={html_url} target="_blank" rel="noopener noreferrer">
+              <Item
+                watchers={watchers}
+                forks={forks}
+                language={language}
+                name={name}
+                description={description}
+              />
+            </a>
+          )}
         </li>
       )
     )}

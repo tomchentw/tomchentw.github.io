@@ -72,6 +72,9 @@ a:hover {
   -o-transform: rotate(90deg);
   transform: rotate(90deg);
 }
+#repos-list li.demo a {
+  background-color: rgba(207, 93, 93, 0.144);
+}
 #repos-list li a .desc {
   color: #ccc;
   display: inline-block;
