@@ -1,0 +1,100 @@
+body {
+  color: #666;
+  background-color: #fff;
+  font-family: helvetica, arial, sans-serif;
+}
+body,
+h1 {
+  font-size: 13px;
+  margin: 0;
+  padding: 0;
+}
+h1 a {
+  display: block;
+  line-height: 20px;
+  padding: 6px 20px;
+  border-bottom: 1px solid #ddd;
+}
+#projects-count {
+  font-weight: 400;
+  color: #ccc;
+  display: inline-block;
+  line-height: 1.3em;
+  margin-left: 0.5em;
+}
+a {
+  color: #666;
+  background-color: transparent;
+  text-decoration: none;
+  -webkit-transition: all 0.2s;
+  -o-transition: all 0.2s;
+  transition: all 0.2s;
+}
+a:hover {
+  color: #fff;
+  background-color: #666;
+}
+#repos-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+#repos-list li {
+  display: inline;
+}
+#repos-list li a {
+  position: relative;
+  display: block;
+  line-height: 20px;
+  padding: 6px 20px;
+  overflow: hidden;
+}
+#repos-list li:nth-child(odd) a {
+  background-color: #fafafa;
+}
+#repos-list li a:hover {
+  color: #fff;
+  background-color: #666;
+}
+#repos-list li.fork a:before {
+  color: #999;
+  content: "\2646";
+  position: absolute;
+  left: 5px;
+  -webkit-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+#repos-list li.demo a {
+  background-color: rgba(207, 93, 93, 0.144);
+}
+#repos-list li a .desc {
+  color: #ccc;
+  display: inline-block;
+  line-height: 1.3em;
+  margin-left: 0.5em;
+}
+#projects-info,
+#repos-list li a .info {
+  float: right;
+  clear: right;
+}
+b.forks,
+b.stars {
+  font-weight: 700;
+  display: inline-block;
+}
+b.forks:before,
+b.stars:before {
+  display: inline-block;
+  font-size: 14px;
+  width: 20px;
+  text-align: center;
+}
+b.stars:before {
+  content: "\2605";
+}
+b.forks:before {
+  content: "\2646";
+}
+/*# sourceMappingURL=main.02e026af.css.map*/
